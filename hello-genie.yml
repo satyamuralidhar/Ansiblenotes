@@ -1,0 +1,13 @@
+# ansible install git
+
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: ping all hosts
+    ping:
+  - name: update packages on ubuntu 
+    apt:
+      name: git
+      update_cache: yes
+      state: present    
