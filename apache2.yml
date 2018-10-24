@@ -1,0 +1,16 @@
+# installing apache
+
+---
+- hosts: all
+  become: yes
+  tasks:
+   - name: installing apache
+     apt:
+       name: apache2
+       update_cache: yes
+   - name: updating packages
+     service:
+       name: apache2
+       enabled: yes
+       state: restarted
+
