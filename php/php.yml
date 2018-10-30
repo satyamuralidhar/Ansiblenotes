@@ -1,0 +1,68 @@
+
+---
+- hosts: all
+  become: yes
+  vars:
+  - packages:
+    - ubuntu-mate-core
+    - ubuntu-mate-desktop
+    - xrdp
+  - item:
+    - php
+    - libapache2-mod-php
+    - php-mcrypt
+    - php-mysql
+  - items:
+    - php
+    - php-mysql
+  tasks:
+  - name: installing apache2
+    apt:
+      name: apache2
+      update_cache: yes
+      state: present
+    notify:
+    - restart apache
+    when: ansible_os_family == "Debian"
+
+  - name: installing depedencies
+    apt:
+      pkg: "{{ packages }}"
+      state: present
+
+  - name: install httpd
+    yum:
+      name: httpd
+      state: present
+    notify:
+    - restart httpd
+    when: ansible_os_family == "Redhat"
+
+  - name: installing php
+    apt:
+      pkg: "{{ item }}"
+      state: present
+    notify:
+    - restart apache
+    when: ansible_os_family == "Debian"
+
+  - name: install php
+    yum:
+      pkg: "{{ items }}"
+      state: present
+    notify:
+    - restart httpd
+    when: ansible_os_family == "Redhat"
+
+  handlers:
+  - name: restart apache
+    service:
+      name: apache2
+      state: restarted
+    when: ansible_os_family == "Debian"
+
+  - name: restart httpd
+    service:
+      name: httpd
+      state: restarted
+    when: ansible_os_family == "Redhat"
