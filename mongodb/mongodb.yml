@@ -1,0 +1,24 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: added ppa key
+    apt_key:
+      keyserver: hkp://keyserver.ubuntu.com:80
+      id: EA312927
+      state: present
+  - name: added mongo source list
+    lineinfile:
+      line: "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse"
+      dest: /etc/apt/sources.list.d/mongodb-org-3.2.list
+      state: present
+      create: yes
+  - name: mongodb repo
+    apt:
+      name: mongodb-org
+      update_cache: yes
+      state: latest
+  - name: mongo service
+    service:
+      name: mongod
+      state: restarted
