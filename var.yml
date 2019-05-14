@@ -1,0 +1,22 @@
+---
+- hosts: all
+  become: yes
+  vars:
+  - web_server:
+    - apache2
+    - tree
+  tasks:
+  - name: apache2 service
+    apt:
+      pkg: "{{ web_server }}"
+      update_cache: yes
+      state: present
+    notify:
+    - restart
+    when: ansible_os_family == "Debian"
+  handlers:
+  - name: restart
+    service:
+      name: apache2
+      state: restarted
+    when: ansible_os_family == "Debain"
