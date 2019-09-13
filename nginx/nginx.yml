@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+  become: yes
+  tasks:
+  - name: nginx installation
+    apt:
+      name: nginx
+      update_cache: yes
+      state: present
+  - name: service restart
+    service:
+      name: nginx
+      enabled: yes
+      state: restarted
