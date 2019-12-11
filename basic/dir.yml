@@ -1,0 +1,13 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: creating directory
+    file:
+      path: "/home/satya/{{item}}"
+      state: directory
+    loop:
+      - dir1
+      - dir2
+      - dir3
+
