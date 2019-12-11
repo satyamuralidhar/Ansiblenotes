@@ -1,0 +1,13 @@
+
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: creating  files
+    file:
+      path: "/home/satya/{{item}}"
+      state: touch
+    loop:
+      - touch1
+      - touch2
+      - touch3
