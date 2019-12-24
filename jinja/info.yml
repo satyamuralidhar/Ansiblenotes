@@ -1,0 +1,10 @@
+---
+- hosts: localhost 
+  become: yes
+  tasks: 
+  - name: to know hostname and os version
+    template:
+      src: jinja.j2
+      dest: /etc/ansible/info
+
+    
